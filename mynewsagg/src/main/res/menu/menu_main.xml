@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.hole1.mynewsagg.view.MainActivity">
+    <item
+        android:id="@+id/action_newsapi"
+        android:title="newsapi.org"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/action_login"
+        android:title="log in"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/action_logout"
+        android:title="log out"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/action_read"
+        android:title="Read Titles"
+        app:showAsAction="collapseActionView"
+        />
+
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_voicesearch"
+        android:title="Voice Search"
+        android:icon="@drawable/ic_mic_white"
+        app:showAsAction="ifRoom"/>
+
+</menu>
