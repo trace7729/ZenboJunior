@@ -1,14 +1,21 @@
 <resources>
     <string name="app_name">MyNewsAgg</string>
     <string name="switch_title">Sounds</string>
+    <string name="language_choose">Choose Language</string>
     <string name="switch_summary">Turn background music on or off</string>
-    <string name="mytimes_logo">MyTimes Logo</string>
-    <string name="newsapi_tag">News Aggregator powered by www.newsapi.org</string>
-    <string name="title_activity_article">MyTimes</string>
+    <string name="title_activity_article">MyNews</string>
     <string name="title_activity_search">Search</string>
+    <string name="hint">Search for Trump</string>
+    <string name="log_in">log in</string>
+    <string name="log_out">log out</string>
+    <string name="read">Read Titles</string>
+    <string name="voice_search">Voice Search</string>
+    <string name="newsapi">newsapi.org</string>
+    <string name="search">Search</string>
+    <string name="language">Language</string>
     <string name="title_activity_voicesearch">Voice Search</string>
     <string name="article_activity_author">AUTHOR:</string>
-    <string name="article_activity_source">SOURCE: Times </string>
+    <string name="article_activity_source">SOURCE:</string>
     <string name="article_activity_date">DATE:</string>
     <string name="menu_title_url">url</string>
     <string name="iv_card_content_description_image">Image of the news response</string>
@@ -19,9 +26,16 @@
     <string name="action_settings">Settings</string>
     <string name="sound_switch">sound</string>
     <string name="pref_title">notifications</string>
+    <string name="cancel">Cancel</string>
 
     <string name="facebook_app_id">2655671871213908</string>
     <string name="fb_login_protocol_scheme">fb2655671871213908</string>
+
+    <string name="general">GENERAL</string>
+    <string name="entertaiment">ENTERTAINMENT</string>
+    <string name="science">SCIENCE</string>
+    <string name="sports">Sports</string>
+    <string name="newsapi_tag">powered by www.newsapi.org</string>
 
 
     <string-array name="spinner">

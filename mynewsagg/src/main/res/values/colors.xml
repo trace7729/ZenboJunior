@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff0ad2</color>
-    <color name="colorPrimaryDark">#c9ef0aff</color>
-    <color name="colorAccent">#ff0ad2</color>
+    <color name="colorPrimary">#FF00FF</color>
+    <color name="colorPrimaryDark">#ff0ad2</color>
+    <color name="colorAccent">#c9ef0aff</color>
     <color name="navigationBarColor">#c9ff0af7</color>
     <color name="colorCardView">#FFFFFF</color>
     <color name="colorBackground">#E5E5E5</color>
-    <color name="colorDarkBackground">#d6852270</color>
+    <color name="colorDarkBackground">#c9ef0aff</color>
     <color name="white">@android:color/white</color>
     <color name="black">@android:color/black</color>
 
