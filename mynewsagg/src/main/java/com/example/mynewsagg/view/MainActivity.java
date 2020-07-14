@@ -1,7 +1,10 @@
 package com.example.mynewsagg.view;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,10 +22,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,9 +77,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -115,14 +122,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private FloatingActionButton fab;
 
     private TextView mTitle;
-    private Boolean robotRead = true;
+    private Boolean robotRead;
 
     public RobotAPI robotAPI;
     RobotCallback robotCallback;
     //private String[] wheelLightsID = {"SYNC_BOTH", "ASYNC_LEFT", "ASYNC_RIGHT"};
     //private String EditText_color;
-    public boolean wheelOn;
+    private boolean wheelOn;
     private ExpressionConfig config;
+    //private AccessTokenTracker tokenTracker;
+    private AccessToken accessToken;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +148,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //this.robotAPI = new RobotAPI(getApplicationContext(), robotCallback);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        loadLocale();
+
+
+        Log.d("Facebook logged in: ", String.valueOf(isLoggedIn()));
+        accessToken = AccessToken.getCurrentAccessToken();
         loginManager = LoginManager.getInstance();
         callbackManager = CallbackManager.Factory.create();
 
@@ -148,6 +164,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .error(R.drawable.ic_launcher_background)
                 .priority(Priority.HIGH);
         createFab();
+        if(isLoggedIn())
+            loaduserProfile(accessToken);
 
         //robotAPI.robot.speak("Hello World. This is world News");
 
@@ -208,29 +226,29 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void createDrawer(Bundle savedInstanceState, final Toolbar toolbar) {
-        PrimaryDrawerItem item0 = new PrimaryDrawerItem().withIdentifier(0).withName("GENERAL")
+        PrimaryDrawerItem item0 = new PrimaryDrawerItem().withIdentifier(0).withName(R.string.general)
                 .withSelectable(false);
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Google News")
                 .withIcon(R.drawable.ic_googlenews);
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("BBC News")
                 .withIcon(R.drawable.ic_bbcnews);
 
-        SectionDrawerItem item3 = new SectionDrawerItem().withIdentifier(3).withName("ENTERTAINMENT");
+        SectionDrawerItem item3 = new SectionDrawerItem().withIdentifier(3).withName(R.string.entertaiment);
         PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withName("Buzzfeed")
                 .withIcon(R.drawable.ic_buzzfeednews);
         PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withName("MTV News")
                 .withIcon(R.drawable.ic_mtvnews);
-        SectionDrawerItem item6 = new SectionDrawerItem().withIdentifier(6).withName("SPORTS");
+        SectionDrawerItem item6 = new SectionDrawerItem().withIdentifier(6).withName(R.string.sports);
         PrimaryDrawerItem item7 = new PrimaryDrawerItem().withIdentifier(7).withName("BBC Sports")
                 .withIcon(R.drawable.ic_bbcsports);
         PrimaryDrawerItem item8 = new PrimaryDrawerItem().withIdentifier(8).withName("TalkSport")
                 .withIcon(R.drawable.ic_talksport);
-        SectionDrawerItem item9 = new SectionDrawerItem().withIdentifier(9).withName("SCIENCE");
+        SectionDrawerItem item9 = new SectionDrawerItem().withIdentifier(9).withName(R.string.science);
         PrimaryDrawerItem item10 = new PrimaryDrawerItem().withIdentifier(10).withName("Medical News Today")
                 .withIcon(R.drawable.ic_medicalnewstoday);
         PrimaryDrawerItem item11 = new PrimaryDrawerItem().withIdentifier(11).withName("National Geographic")
                 .withIcon(R.drawable.ic_nationalgeographic);
-        SecondaryDrawerItem item12 = new SecondaryDrawerItem().withIdentifier(12).withName("Powered by newsapi.org");
+        SecondaryDrawerItem item12 = new SecondaryDrawerItem().withIdentifier(12).withName(R.string.newsapi_tag);
 
 
         accountHeader = new AccountHeaderBuilder()
@@ -357,13 +375,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
     }
 
     @Override
     public void onRefresh() {
         loadJSON();
-
     }
     private void onLoadingSwipeRefreshLayout() {
 
@@ -405,10 +421,79 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             case R.id.action_read:
                 setRobotRead();
                 break;
+            case R.id.language:
+                showChangeLanguageDialog();
+                break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showChangeLanguageDialog() {
+        /*List<CharSequence> listItems = Arrays.asList(
+                Html.fromHtml("<font color='#FFFFFF'>English</font>"),
+                Html.fromHtml("<font color='#FFFFFF'>繁體中文</font>"),
+                Html.fromHtml("<font color='#FFFFFF'>Español</font>")
+                );*/
+        /*final ArrayAdapter arrayAdapter =
+                new ArrayAdapter(this,android.R.layout.simple_expandable_list_item_2,listItems);*/
+       final String[] listItems = {
+                "English",
+                "繁體中文",
+                "Español"
+        };
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this,R.style.MyAlertDialogStyle2);
+        //mBuilder.
+        mBuilder.setTitle(R.string.language_choose);
+        mBuilder.setSingleChoiceItems(listItems,-1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(i==0){
+                    //English
+                    setLocale("en",getRobotRead());
+                    recreate();
+                }else if(i==1){
+                    //Traditional Chinese
+                    setLocale("zh-rTW",getRobotRead());
+                    recreate();
+                } else if(i==2){
+                    //Spanish
+                    setLocale("es",getRobotRead());
+                    recreate();
+                }
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog change = mBuilder.create();
+        change.show();
+    }
+    private void setLocale(String lang, Boolean robotRead) {
+        Locale locale = null;
+        if (lang.equals("en")) {
+            locale = Locale.ENGLISH;
+        }else if(lang.equals("zh-rTW")){
+            locale = Locale.TAIWAN;
+        }else if(lang.equals("es")){
+            locale = new Locale("es","ES");
+        }
+
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putString("My_Lang", lang);
+        editor.putBoolean("robotRead",robotRead);
+        //String tokengetter = accessToken.getToken();
+        //editor.putString("token", tokengetter);
+        editor.apply();
+    }
+    private void loadLocale(){
+        prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_Lang","en");
+        Boolean robotRead = prefs.getBoolean("robotRead",getRobotRead());
+        setLocale(language, robotRead);
     }
 
     private void openSearchActivity() {
@@ -433,7 +518,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         return robotRead;
     }
     private Boolean getRobotRead(){
-        return robotRead;
+        try {
+            if (robotRead) {
+                return robotRead;
+            } else if (robotRead == null) {
+                return false;
+            } else
+                return false;
+        }catch (NullPointerException e){
+        }
+        return false;
     }
     private void speakTitles(ArrayList<String> speakTitles) {
         CountDownTimer mCountDownTimer = new CountDownTimer(speakTitles.get(0).length()*100, 1000) {
@@ -485,8 +579,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         public void onClick(DialogInterface dialog, int id) {
                             robotAPI.wheelLights.setColor(WheelLights.Lights.SYNC_BOTH, 0xff,0x393DB3);
                             robotAPI.wheelLights.startStatic(WheelLights.Lights.SYNC_BOTH);
+                            prefs.edit().putBoolean("firstrun",true).apply();
                             finish();
                         }
+
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
@@ -528,6 +624,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onResume();
         if (listState != null) {
             recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
+        if(prefs.getBoolean("firstrun", true)){
+            robotRead = true;
+            prefs.edit().putBoolean("firstrun",false).apply();
         }
     }
     private void loginFB(){
@@ -581,6 +681,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         }**/
                     }
                 });
+                //facebookLogin = true;
             }
 
             @Override
@@ -601,12 +702,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     robotAPI.wheelLights.turnOff(WheelLights.Lights.SYNC_BOTH, 0xff);
                     Toast.makeText(MainActivity.this, "User Logged out", Toast.LENGTH_LONG).show();
                     wheelOn = false;
+                    wheelLight(wheelOn);
                 }else {
-                    robotAPI.wheelLights.setColor(WheelLights.Lights.SYNC_BOTH, 0xff,0xff0a1a);
-                    robotAPI.wheelLights.turnOff(WheelLights.Lights.SYNC_BOTH, 0xff);
-                    robotAPI.wheelLights.setColor(WheelLights.Lights.SYNC_BOTH, 0xff, 0xff0a1a);
-                    robotAPI.wheelLights.startStatic(WheelLights.Lights.SYNC_BOTH);
                     wheelOn = true;
+                    wheelLight(wheelOn);
                     loaduserProfile(currentAccessToken);
                 }
             }
@@ -641,8 +740,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                                     }
                                 });
                         String welcome = "Welcome " + first_name+" "+last_name;
-                        Toast.makeText(MainActivity.this, welcome, Toast.LENGTH_LONG).show();
                         robotAPI.robot.speak(welcome);
+                        Toast.makeText(MainActivity.this, welcome, Toast.LENGTH_LONG).show();
                     }
                     catch (Exception e){
                         Log.e("Error: ",e.getMessage());
@@ -652,6 +751,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
+
             }
         });
         // specify the parameter in the form of bundle object
@@ -677,9 +777,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     }
                 });
     }
-    //public boolean getwheelOn() {
-        //return this.wheelOn;
-    //}
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
+    private void wheelLight(boolean wheelLight){
+        if (wheelLight){
+            robotAPI.wheelLights.setColor(WheelLights.Lights.SYNC_BOTH, 0xff,0xff0a1a);
+            robotAPI.wheelLights.turnOff(WheelLights.Lights.SYNC_BOTH, 0xff);
+            robotAPI.wheelLights.setColor(WheelLights.Lights.SYNC_BOTH, 0xff, 0xff0a1a);
+            robotAPI.wheelLights.startStatic(WheelLights.Lights.SYNC_BOTH);
+        } else{
+            robotAPI.wheelLights.turnOff(WheelLights.Lights.SYNC_BOTH, 0xff);
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         callbackManager.onActivityResult(requestCode, resultCode, data);
