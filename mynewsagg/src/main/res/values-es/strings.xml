@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyNewsAgg</string>
+    <string name="action_settings">Configuraciones</string>
+    <string name="article_activity_author">Autores</string>
+    <string name="article_activity_date">Fecha</string>
+    <string name="article_activity_source">Fuente</string>
+    <string name="collasping_image">Imagen contraída</string>
+    <string name="entertaiment">ENTRETENIMIENTO</string>
+    <string name="facebook_app_id">2655671871213908</string>
+    <string name="fb_login_protocol_scheme">fb2655671871213908</string>
+    <string name="general">GENERAL</string>
+    <string name="hint">Buscar Trump</string>
+    <string name="iv_card_content_description_image">Imagen de la respuesta a las noticias</string>
+    <string name="language">lengua</string>
+    <string name="language_choose">Elige lengua</string>
+    <string name="log_in">iniciar sesión</string>
+    <string name="log_out">cerrar sesión</string>
+    <string name="material_drawer">Material Drawer</string>
+    <string name="menu_title_url">url</string>
+    <string name="newsapi">newsapi.org</string>
+    <string name="newsapi_tag">accionado por www.newsapi.org</string>
+    <string name="pref_title">notificaciones</string>
+    <string name="read">Leer títulos</string>
+    <string name="science">" Ciencias"</string>
+    <string name="search">" Buscar"</string>
+    <string name="sound_switch">" Sonido"</string>
+    <string name="switch_summary">Activa o desactiva la música de fondo</string>
+    <string name="switch_title">Sonido</string>
+    <string name="title_activity_article">MyNews</string>
+    <string name="title_activity_search">Buscar</string>
+    <string name="title_activity_settings">Configuraciones</string>
+    <string name="title_activity_voicesearch">Búsqueda por voz</string>
+    <string name="title_activity_web_view">WebView</string>
+    <string name="toolbar_default_text">Google Nueva</string>
+    <string name="voice_search">Búsqueda por voz</string>
+    <string name="sports">Deportes</string>
+    <string name="cancel">Cancelar</string>
+</resources>

@@ -154,5 +154,6 @@
     <orderEntry type="library" name="Gradle: com.mikepenz:fastadapter:2.5.3@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:multidex:1.0.3@aar" level="project" />
     <orderEntry type="module" module-name="RobotActivityLibrary" />
+    <orderEntry type="module" module-name="RobotActivityLibrary" />
   </component>
 </module>

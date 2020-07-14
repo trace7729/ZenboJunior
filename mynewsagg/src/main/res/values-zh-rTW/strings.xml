@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyNewsAgg</string>
+    <string name="article_activity_author">作者:</string>
+    <string name="article_activity_date">日期:</string>
+    <string name="article_activity_source">來源:</string>
+    <string name="collasping_image">堆疊圖</string>
+    <string name="entertaiment">娛樂新聞</string>
+    <string name="facebook_app_id">2655671871213908</string>
+    <string name="fb_login_protocol_scheme">fb2655671871213908</string>
+    <string name="general">綜合新聞</string>
+    <string name="hint">收尋 Trump</string>
+    <string name="iv_card_content_description_image">新聞畫面</string>
+    <string name="language">語言</string>
+    <string name="log_in">登入</string>
+    <string name="log_out">登出</string>
+    <string name="material_drawer">Material Drawer</string>
+    <string name="menu_title_url">url</string>
+    <string name="newsapi">newsapi.org</string>
+    <string name="newsapi_tag">由newsapi.org提供</string>
+    <string name="pref_title">通知</string>
+    <string name="read">標題閱讀</string>
+    <string name="science">科學新聞</string>
+    <string name="search">收尋</string>
+    <string name="sound_switch">音量</string>
+    <string name="switch_summary">背景音樂</string>
+    <string name="switch_title">音量</string>
+    <string name="title_activity_article">我的新聞</string>
+    <string name="title_activity_search">收尋</string>
+    <string name="title_activity_settings">設定</string>
+    <string name="title_activity_voicesearch">語音收尋</string>
+    <string name="title_activity_web_view">網頁</string>
+    <string name="toolbar_default_text">Google News</string>
+    <string name="voice_search">語音收尋</string>
+    <string name="action_settings">設定</string>
+    <string name="language_choose">選擇語言</string>
+    <string name="sports">體育新聞</string>
+    <string name="cancel">結束</string>
+
+</resources>

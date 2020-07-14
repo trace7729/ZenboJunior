@@ -8,28 +8,31 @@
         app:showAsAction="collapseActionView" />
     <item
         android:id="@+id/action_login"
-        android:title="log in"
+        android:title="@string/log_in"
         app:showAsAction="collapseActionView" />
     <item
         android:id="@+id/action_logout"
-        android:title="log out"
+        android:title="@string/log_out"
         app:showAsAction="collapseActionView" />
     <item
         android:id="@+id/action_read"
-        android:title="Read Titles"
-        app:showAsAction="collapseActionView"
-        />
+        android:title="@string/read"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/language"
+        android:title="@string/language"
+        app:showAsAction="collapseActionView"/>
 
     <item
         android:id="@+id/action_search"
-        android:title="Search"
+        android:title="@string/search"
         android:icon="@drawable/ic_search"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_voicesearch"
-        android:title="Voice Search"
-        android:icon="@drawable/ic_mic_white"
+        android:title="@string/voice_search"
+        android:icon="@drawable/ic_action_mic"
         app:showAsAction="ifRoom"/>
 
 </menu>

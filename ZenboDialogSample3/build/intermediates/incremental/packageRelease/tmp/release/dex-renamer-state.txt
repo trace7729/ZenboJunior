@@ -1,0 +1,4 @@
+#Sun Jan 19 20:39:36 CST 2020
+base.0=C\:\\Users\\m072290\\Desktop\\ZenboJunior\\ZenboJunior\\ZenboDialogSample\\build\\intermediates\\dex\\release\\mergeDexRelease\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
